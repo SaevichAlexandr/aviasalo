@@ -1,0 +1,6 @@
+content:
+  application/json:
+    schema:
+      $ref: ../schemas/Flight.yaml
+description: Flight object
+required: true

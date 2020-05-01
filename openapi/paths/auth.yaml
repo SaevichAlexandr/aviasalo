@@ -1,0 +1,15 @@
+post:
+  summary: "Get Token for bearerAuth"
+  description: 'Provides token to user for making operations'
+  requestBody:
+    $ref: "../components/requestBodies/Auth.yaml"
+  responses:
+    "200":
+      headers: 
+        bearerToken:
+          $ref: "../components/headers/BearerToken.yaml"
+      description: OK
+    '409':
+      $ref: ../components/responses/Conflict.yaml
+    '422':
+      $ref: ../components/responses/InvalidData.yaml

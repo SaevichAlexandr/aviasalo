@@ -1,0 +1,9 @@
+type: object
+properties:
+  email:
+    type: string
+  password:
+    type: string
+example:
+  email: "dio_brando@mail.com"
+  password: "mudamudamuda"

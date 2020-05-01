@@ -1,0 +1,4 @@
+description: Generated Token for bearerAuth  
+schema:
+        type: string
+        example: 9fffsdsa-uu8d-43aa-b286-9gh22545319f6

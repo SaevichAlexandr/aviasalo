@@ -1,0 +1,35 @@
+type: object
+properties:
+  id:
+    type: integer
+    example: 4
+  
+  departure point:
+    type: string
+    example: MOW
+  
+  arrival point:
+    type: string
+    example: LED
+  
+  departure datetime:
+    type: string
+    format: date-time
+    example: '2017-07-21T18:30:00Z'
+
+  arrival datetime:
+    type: string
+    format: date-time
+    example: '2017-07-24T08:00:00Z'
+
+  aircompany:
+    type: string
+    example: UT
+  
+  flight number:
+    type: string
+    example: 'UT-450'
+  
+  cost:
+    type: integer
+    example: 10900
