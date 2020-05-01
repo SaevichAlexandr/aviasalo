@@ -1,0 +1,6 @@
+content:
+  application/json:
+    schema:
+      $ref: ../schemas/Tariff.yaml
+description: Tariff object
+required: true
