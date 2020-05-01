@@ -1,4 +1,0 @@
-type: integer
-minimum: 1
-description: res ID
-example: 10

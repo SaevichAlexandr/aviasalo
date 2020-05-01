@@ -1,7 +1,0 @@
-name: tariffId
-in: path
-description: >-
-  Tariff identifier
-schema:
-  $ref: ../schemas/ResourceId.yaml
-required: true

@@ -1,5 +1,0 @@
-name: flightId
-in: path
-schema:
-  $ref: ../schemas/ResourceId.yaml
-required: true
