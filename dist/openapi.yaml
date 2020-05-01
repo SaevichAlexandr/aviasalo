@@ -1,0 +1,416 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: REST API
+  contact:
+    name: Alexandr Saevich
+    email: saleksandr19121998@gmail.com
+    url: biba_i_bboba.com
+servers:
+  - url: 'https://aviasalo.com/v1.0'
+    description: Live Server
+tags:
+  - name: Раздел
+    description: |
+      Описание раздела
+      в несколько
+      строк
+security:
+  - SecretApiKey: []
+  - JWT: []
+paths:
+  /auth:
+    post:
+      summary: Get Token for bearerAuth
+      description: Provides token to user for making operations
+      requestBody:
+        $ref: '#/components/requestBodies/Auth'
+      responses:
+        '200':
+          headers:
+            bearerToken:
+              $ref: '#/components/headers/BearerToken'
+          description: OK
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/InvalidData'
+  /flight:
+    post:
+      summary: Request to create new Flight
+      security:
+        - bearerAuth:
+            - 'Company:create'
+      requestBody:
+        $ref: '#/components/requestBodies/Flight'
+      responses:
+        '200':
+          $ref: '#/components/responses/Created'
+        '401':
+          $ref: '#/components/responses/AccessForbidden'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/InvalidData'
+  '/flight/{flightId}':
+    get:
+      summary: Get Flight
+      description: Request for Flight information
+      parameters:
+        - $ref: '#/components/parameters/FlightId'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Flight'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      summary: Update Flight
+      description: Request for update information about a Flight
+      security:
+        - bearerAuth:
+            - 'Flight:update'
+      parameters:
+        - $ref: '#/components/parameters/FlightId'
+      requestBody:
+        $ref: '#/components/requestBodies/Flight'
+      responses:
+        '200':
+          description: Flight was updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Flight'
+        '401':
+          $ref: '#/components/responses/AccessForbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/InvalidData'
+    delete:
+      summary: Delete Flight
+      description: Request for delete information about a Flight
+      security:
+        - bearerAuth:
+            - 'Flight:delete'
+      parameters:
+        - $ref: '#/components/parameters/FlightId'
+      responses:
+        '200':
+          $ref: '#/components/responses/Deleted'
+        '401':
+          $ref: '#/components/responses/AccessForbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/InvalidData'
+  /flights:
+    get:
+      description: Request for all Flights
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Flight'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  '/flight/{flightId}/flights':
+    get:
+      summary: Get Flight Tariffs
+      description: Request for a list of Flight Tariffs
+      parameters:
+        - $ref: '#/components/parameters/FlightId'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tariff'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /tariff:
+    post:
+      summary: Create Tarrif
+      description: Request for create new Tarrif
+      security:
+        - bearerAuth:
+            - 'Tarrif:create'
+      requestBody:
+        $ref: '#/components/requestBodies/Tariff'
+      responses:
+        '201':
+          $ref: '#/components/responses/Created'
+        '401':
+          $ref: '#/components/responses/AccessForbidden'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/InvalidData'
+  '/tariff/{tariffId}':
+    get:
+      summary: Get Tariff
+      description: Request for Tariff information
+      parameters:
+        - $ref: '#/components/parameters/TariffId'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tariff'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      summary: Update Tariff
+      description: Request for update information about a Tariff
+      security:
+        - bearerAuth:
+            - 'Tariff:update'
+      parameters:
+        - $ref: '#/components/parameters/TariffId'
+      requestBody:
+        $ref: '#/components/requestBodies/Tariff'
+      responses:
+        '200':
+          description: Tariff was updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tariff'
+        '401':
+          $ref: '#/components/responses/AccessForbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/InvalidData'
+    delete:
+      summary: Delete Tariff
+      description: Request for delete information about a Tariff
+      security:
+        - bearerAuth:
+            - 'Tariff:delete'
+      parameters:
+        - $ref: '#/components/parameters/TariffId'
+      responses:
+        '200':
+          $ref: '#/components/responses/Deleted'
+        '401':
+          $ref: '#/components/responses/AccessForbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/InvalidData'
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        email: dio_brando@mail.com
+        password: mudamudamuda
+    Error:
+      type: object
+      properties:
+        status:
+          type: integer
+          minimum: 100
+          maximum: 600
+          description: The HTTP status code.
+        error:
+          type: string
+        type:
+          type: string
+          description: >-
+            A URI reference [[RFC3986](https://tools.ietf.org/html/rfc3986)]
+            that identifies the problem type. It should provide human-readable
+            documentation for the problem type. When this member is not present,
+            its value is assumed to be "about:blank".
+        title:
+          type: string
+          description: >-
+            A short, human-readable summary of the problem type. It SHOULD NOT
+            change from occurrence to occurrence of the problem, except for
+            purposes of localization.
+    InvalidError:
+      description: Invalid data was sent
+      allOf:
+        - $ref: '#/components/schemas/Error'
+        - type: object
+          properties:
+            invalidFields:
+              type: array
+              items:
+                type: object
+                properties:
+                  field:
+                    type: string
+                    description: >-
+                      The field name. Dot notation is used for nested object
+                      field names.
+                    example: field_1
+                  message:
+                    type: string
+                    example: field_1 is invalid
+    Flight:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 4
+        departure point:
+          type: string
+          example: MOW
+        arrival point:
+          type: string
+          example: LED
+        departure datetime:
+          type: string
+          format: date-time
+          example: '2017-07-21T18:30:00Z'
+        arrival datetime:
+          type: string
+          format: date-time
+          example: '2017-07-24T08:00:00Z'
+        aircompany:
+          type: string
+          example: UT
+        flight number:
+          type: string
+          example: UT-450
+        cost:
+          type: integer
+          example: 10900
+    ResourceId:
+      type: integer
+      minimum: 1
+      description: res ID
+      example: 10
+    Tariff:
+      type: object
+      properties:
+        id:
+          type: integer
+          minimum: 1
+          example: 5
+        code:
+          type: string
+          example: UTOW10US
+        description:
+          type: string
+          description: Tariff rules description
+          example: >-
+            APPLICATION AND OTHER CONDITIONS RULE - 304/UT23 UNLESS OTHERWISE
+            SPECIFIED ONE WAY MINIMUM FARE APPLICATION AREA THESE FARES APPLY
+            WITHIN AREA 2. CLASS OF SERVICE THESE FARES APPLY FOR ECONOMY CLASS
+            SERVICE. TYPES OF TRANSPORTATION THIS RULE GOVERNS ONE-WAY FARES.
+            FARES GOVERNED BY THIS RULE CAN BE USED TO CREATE ONE-WAY JOURNEYS.
+        refundable:
+          type: boolean
+          example: true
+        exchangable:
+          type: boolean
+          example: false
+        baggage:
+          type: string
+          example: 1PC
+  requestBodies:
+    Auth:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/User'
+      description: User object
+      required: true
+    Flight:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Flight'
+      description: Flight object
+      required: true
+    Tariff:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Tariff'
+      description: Tariff object
+      required: true
+  headers:
+    BearerToken:
+      description: Generated Token for bearerAuth
+      schema:
+        type: string
+        example: 9fffsdsa-uu8d-43aa-b286-9gh22545319f6
+  responses:
+    Conflict:
+      description: Conflict
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InvalidData:
+      description: Invalid data was sent
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/InvalidError'
+    Created:
+      description: Created
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                $ref: '#/components/schemas/ResourceId'
+    AccessForbidden:
+      description: 'Access forbidden, invalid API-KEY was used'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Deleted:
+      description: Deleted
+  parameters:
+    FlightId:
+      name: flightId
+      in: path
+      schema:
+        $ref: '#/components/schemas/ResourceId'
+      required: true
+    TariffId:
+      name: tariffId
+      in: path
+      description: Tariff identifier
+      schema:
+        $ref: '#/components/schemas/ResourceId'
+      required: true
