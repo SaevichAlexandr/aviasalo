@@ -1,10 +1,5 @@
 type: object
 properties:
-  id:
-    type: integer
-    minimum: 1
-    example: 5
-
   code:
     type: string
     example: UTOW10US
@@ -30,7 +25,7 @@ properties:
     type: boolean
     example: true
   
-  exchangable:
+  exchangeable:
     type: boolean
     example: false
   

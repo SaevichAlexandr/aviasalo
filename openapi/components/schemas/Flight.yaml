@@ -1,8 +1,5 @@
 type: object
 properties:
-  id:
-    type: integer
-    example: 4
   
   departure point:
     type: string
