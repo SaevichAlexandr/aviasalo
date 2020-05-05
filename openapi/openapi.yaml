@@ -27,7 +27,7 @@ paths:
     $ref: './paths/flight@{flightId}.yaml'
   '/flights':
     $ref: './paths/flights.yaml'
-  '/flight/{flightId}/flights':
+  '/flight/{flightId}/tariffs':
     $ref: './paths/flight@{flightId}@tariffs.yaml'
   '/tariff':
     $ref: './paths/tariff.yaml'
