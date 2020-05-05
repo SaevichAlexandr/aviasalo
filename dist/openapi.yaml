@@ -125,7 +125,7 @@ paths:
                   $ref: '#/components/schemas/Flight'
         '404':
           $ref: '#/components/responses/NotFound'
-  '/flight/{flightId}/flights':
+  '/flight/{flightId}/tariffs':
     get:
       summary: Get Flight Tariffs
       description: Request for a list of Flight Tariffs
