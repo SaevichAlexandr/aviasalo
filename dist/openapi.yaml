@@ -277,9 +277,6 @@ components:
     Flight:
       type: object
       properties:
-        id:
-          type: integer
-          example: 4
         departure point:
           type: string
           example: MOW
@@ -311,10 +308,6 @@ components:
     Tariff:
       type: object
       properties:
-        id:
-          type: integer
-          minimum: 1
-          example: 5
         code:
           type: string
           example: UTOW10US
@@ -330,7 +323,7 @@ components:
         refundable:
           type: boolean
           example: true
-        exchangable:
+        exchangeable:
           type: boolean
           example: false
         baggage:
